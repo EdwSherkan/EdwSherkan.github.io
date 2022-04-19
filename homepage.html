@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle History Administration</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="logic.js">
+    <link rel="shortcut icon" href="./Imagenes/favicon.png" type="image/x-icon">
+</head>
+
+<body>
+<!--Contenedor encabezado-->    
+    <header class="cont_encabezado">
+        <div class="cont_logo">
+            <img src="./Imagenes/truck_23929.png" alt="">
+        </div>
+        <div class="cont_titulo">
+            <h1>Vehicle History Administration</h1>
+        </div>
+        <nav class="cont_login">
+            <button onclick="ver_formLogin()" id="btn_login">Login</button>
+            <button onclick="location.reload()" id="btn_volver">Go Back</button>
+        </nav>
+    </header>
+<!--Contenedor inicial--> 
+    <section class="cont_inicial">
+<!--Formulario login--> 
+        <form class="form_login" id="form_login" >
+            <div class="cont_inputlog">
+                <input type="text" placeholder="User Name" required id="username">
+                <input type="password" placeholder="Password" required>
+            </div>
+            <div class="cont_btnlogin">
+                <button type="button" onclick="abrir_app()">Start</button>
+                <button type="button" onclick="cerrar_formLogin()">Abort</button>
+            </div>
+        </form>
+<!--Contenedor efecto loading-->         
+        <div class="contenedor" id="contenedor">
+            <div class="loader" id="loader">Loading...</div>
+        </div> 
+<!--Contenedor trabajo--> 
+        <section class="cont_trabajo" id="cont_trabajo">
+<!--Contenedor menu--> 
+            <aside class="cont_menu">
+                <div class="menu">
+                    <button class="btn_menu">Consult</button>
+                    <div class="cont_btns">
+                        <button onclick="abrir_tclientes()">Customers</button>
+                        <button onclick="abrir_tvehiculos()">Vehicles</button>
+                        <button onclick="abrir_tservicios()">Services</button>
+                    </div>
+                </div>
+                <div class="menu">
+                    <button class="btn_menu">Record</button>
+                    <div class="cont_btns">
+                        <button onclick="abrir_formServicios()">Record Services</button>
+                    </div>
+                </div>
+                <div class="menu">
+                    <button class="btn_menu">Administration</button>
+                    <div class="cont_btns">
+                        <button onclick="abrir_adminclientes()">Admin Customers</button>
+                        <button onclick="abrir_adminvehiculos()">Admin Vehicles</button>
+                        <button onclick="abrir_adminoperarios()">Admin Operators</button>
+                        <button onclick="abrir_admintservicios()">Admin Type of service</button>
+                        <button onclick="abrir_informes()">Admin Reports</button>
+                    </div>
+                </div>
+                <div class="usuario">
+                    <p id="usuario_actual"></p>
+                </div>
+            </aside>
+<!--Contenedor formularios--> 
+            <aside class="cont_formularios">
+<!--contenedor tabla clientes-->
+                <div class="cont_tclientes" id="tclientes">
+                    <header class="e_tabla">
+                        <div class="cont_izq">
+                            <input type="text" placeholder="Search Client">
+                            <button>Search</button>
+                        </div>
+                        <div class="cont_der">
+                            <button onclick="cerrar_tclientes()">X</button>
+                        </div>
+                    </header>
+<!--tabla clientes-->
+                    <table class="t_clientes">
+
+                    </table>
+                </div>
+<!--contenedor tabla vehiculos-->
+                <div class="cont_tvehiculos" id="tvehiculos">
+                    <header class="e_tabla">
+                        <div class="cont_izq">
+                            <input type="text" placeholder="Search Vehicle">
+                            <button>Search</button>
+                        </div>
+                        <div class="cont_der">
+                            <button onclick="cerrar_tvehiculos()">X</button>
+                        </div>
+                    </header>
+                    <table class="t_vehiculos">
+
+                    </table>
+                </div>
+<!--contenedor tabla servicios--> 
+            <div class="cont_tservicios" id="tservicios">
+                <header class="e_tabla">
+                    <div class="cont_izq">
+                        <input type="text" placeholder="Search Services">
+                            <button>Search</button>
+                    </div>
+                    <div class="cont_der">
+                        <button onclick="cerrar_tservicios()">X</button>
+                    </div>
+                </header>
+                <table class="t_servicios">
+
+                </table>
+            </div>
+<!--contenedor formulario servicios-->   
+            <div class="cont_formServicios" id="formServicios">
+                <header class="h_form">
+                    <div class="cont_izq">
+                        <label>Register Service</label>
+                    </div>
+                    <div class="cont_der">
+                        <button onclick="cerrar_formServicios()">X</button>
+                    </div>
+                </header>
+                <form class="formServicios" id="myform" >
+                    <div class="cont_a">
+                        <div class="cont_lbl"><label>Date</label></div>
+                        <div class="cont_lbl"><label>Vehicle plate</label></div>
+                        <div class="cont_lbl"><label>Type of service</label></div>
+                        <div class="cont_lbl"><label>Service detail</label></div>
+                        <div class="cont_lbl"><label>Operator</label></div>
+                        <div class="cont_lbl"><label>Vehicle kilometers</label></div>
+                        <div class="cont_check"><input type="checkbox" name="" id=""><p>¿Save?</p></div>
+                    </div>
+                    <div class="cont_b">
+                            <div class="cont_input2" ><input type="date" id="vp" required></div>
+                            <div class="cont_input2"><input type="text"  id="vp"required></div>
+                                <select name="" id="vp" required>
+                                    <option selected disabled></option>
+                                    <option value="1">Full Lubrication</option>
+                                    <option value="2">Partial Lubrication</option>
+                                    <option value="3">Full Grease</option>
+                                    <option value="4">Partial Grease</option>
+                                    <option value="5">Change of Filters</option>
+                                </select>
+                            <div class="cont_input2"><input type="text" id="vp" required></div>
+                            <div class="cont_input2"><input type="text" id="vp" required></div>
+                            <div class="cont_input2"><input type="text" id="vp" required></div>
+                        <div class="cont_btn_crud"> 
+                            <button class="crud" type="submit" onclick="" id="crud">
+                                <img src="./Imagenes/file-add.png" title="Add">
+                            </button>
+                        </div>           
+                    </div>
+                </form>
+            </div>
+<!--Contenedor formulario admin clientes--> 
+<div class="cont_adminclientes" id="adminclientes">
+    <header class="h_form">
+        <div class="cont_izq">
+            <label>Admin Customers</label>
+        </div>
+        <div class="cont_der">
+            <button onclick="cerrar_adminclientes()">X</button>
+        </div>
+    </header>
+    <form class="formServicios" id="myform" >
+        <div class="cont_a">
+            <div class="cont_lbl"><label>Document</label></div>
+            <div class="cont_lbl"><label>Name</label></div>
+            <div class="cont_lbl"><label>Last Name</label></div>
+            <div class="cont_lbl"><label>Phone</label></div>
+            <div class="cont_lbl"><label>E-mail</label></div>
+            <div class="cont_lbl"><label>City</label></div>
+            <div class="cont_check"><input type="checkbox" name="" id=""><p>¿Save?</p></div>
+        </div>
+        <div class="cont_b">
+                <div class="cont_input2" ><input type="text" id="vp" required></div>
+                <div class="cont_input2"><input type="text" id="vp" required></div>
+                <div class="cont_input2"><input type="text" id="vp" required></div>
+                <div class="cont_input2"><input type="tel" id="vp" required></div>
+                <div class="cont_input2"><input type="text"  id="vp"required></div>
+                    <select name="" id="vp" required>
+                        <option selected disabled></option>
+                        <option value="1">Arauca</option>
+                        <option value="2">Armenia</option>
+                        <option value="3">Barranquilla</option>
+                        <option value="4">Bogotá</option>
+                        <option value="5">Bucaramanga</option>
+                        <option value="6">Cali</option>
+                        <option value="7">Cartagena</option>
+                        <option value="9">Cúcuta</option>
+                        <option value="10">Florencia</option>
+                        <option value="11">Ibagué</option>
+                        <option value="12">Manizales</option>
+                        <option value="13">Medellín</option>
+                        <option value="14">Mitú</option>
+                        <option value="15">Mocoa</option>
+                        <option value="16">Montería</option>
+                        <option value="17">Neiva</option>
+                        <option value="18">Pasto</option>
+                        <option value="19">Pereira</option>
+                        <option value="20">Popayán</option>
+                        <option value="21">Quibdó</option>
+                        <option value="22">Riohacha</option>
+                        <option value="23">San José del Guaviare</option>
+                        <option value="24">Santa Marta</option>
+                        <option value="25">Sincelejo</option>
+                        <option value="26">Tunja</option>
+                        <option value="27">Valledupar</option>
+                        <option value="28">Villavicencio</option>
+                        <option value="29">Yopal</option>
+                    </select>
+            <div class="cont_btn_crud"> 
+                <button class="crud" type="submit" onclick="" id="crud">
+                    <img src="./Imagenes/file-add.png" title="Add">
+                </button>
+                <button class="crud" type="submit" onclick="" id="crud">
+                    <img src="./Imagenes/file-edit.png" title="Edit">
+                </button>
+                <button class="crud" type="submit" onclick="" id="crud">
+                    <img src="./Imagenes/file-delete.png" title="Delete">
+                </button>
+            </div>           
+        </div>
+    </form>
+</div>
+<!--Contenedor formulario admin vehiculos--> 
+<div class="cont_adminvehiculos" id="adminvehiculos">
+    <header class="h_form">
+        <div class="cont_izq">
+            <label>Admin Vehicles</label>
+        </div>
+        <div class="cont_der">
+            <button onclick="cerrar_adminvehiculos()">X</button>
+        </div>
+    </header>
+    <form class="formServicios" id="myform" >
+        <div class="cont_a">
+            <div class="cont_lbl"><label>Plate</label></div>
+            <div class="cont_lbl"><label>Reference</label></div>
+            <div class="cont_lbl"><label>Mark</label></div>
+            <div class="cont_lbl"><label>Model</label></div>
+            <div class="cont_lbl"><label>Owner</label></div>
+            <div class="cont_check"><input type="checkbox" name="" id=""><p>¿Save?</p></div>
+        </div>
+        <div class="cont_b">
+                <div class="cont_input2" ><input type="text" id="vp" required></div>
+                <div class="cont_input2"><input type="text" id="vp" required></div>
+                <div class="cont_input2"><input type="text" id="vp" required></div>
+                <div class="cont_input2"><input type="tel" id="vp" required></div>
+                <div class="cont_input2"><input type="text"  id="vp"required></div>
+            <div class="cont_btn_crud"> 
+                <button class="crud" type="submit" onclick="" id="crud">
+                    <img src="./Imagenes/file-add.png" title="Add">
+                </button>
+                <button class="crud" type="submit" onclick="" id="crud">
+                    <img src="./Imagenes/file-edit.png" title="Edit">
+                </button>
+                <button class="crud" type="submit" onclick="" id="crud">
+                    <img src="./Imagenes/file-delete.png" title="Delete">
+                </button>
+            </div>           
+        </div>
+    </form>
+</div>
+<!--Contenedor formulario admin operarios--> 
+<div class="cont_adminoperarios" id="adminoperarios">
+    <header class="h_form">
+        <div class="cont_izq">
+            <label>Admin Vehicles</label>
+        </div>
+        <div class="cont_der">
+            <button onclick="cerrar_adminoperarios()">X</button>
+        </div>
+    </header>
+    <form class="formServicios" id="myform" >
+        <div class="cont_a">
+            <div class="cont_lbl"><label>Document</label></div>
+            <div class="cont_lbl"><label>Name</label></div>
+            <div class="cont_lbl"><label>Last Name</label></div>
+            <div class="cont_lbl"><label>Position</label></div>
+            <div class="cont_lbl"><label for=""></label></div>
+           
+            <div class="cont_check"><input type="checkbox" name="" id=""><p>¿Save?</p></div>
+        </div>
+        <div class="cont_b">
+                <div class="cont_input2" ><input type="text" id="vp" required></div>
+                <div class="cont_input2"><input type="text" id="vp" required></div>
+                <div class="cont_input2"><input type="text" id="vp" required></div>
+                <select name="" id="vp" required> 
+                    <option selected disabled></option>
+                    <option value="1">Assistant Warehouse</option>
+                    <option value="2">Assistant Store</option>
+                    <option value="3">Operative Assistant</option>
+                    <option value="4">Billing Assistant</option>
+                    <option value="5">Warehouse Manager</option>
+                    <option value="6">Operational Chief</option>
+                    <option value="7">Store manager</option>
+                    <option value="8">Administrative Boss</option> 
+                </select>    
+                <div class="cont_lbl"><label for=""></label></div>              
+            <div class="cont_btn_crud"> 
+                <button class="crud" type="submit" onclick="" id="crud">
+                    <img src="./Imagenes/file-add.png" title="Add">
+                </button>
+                <button class="crud" type="submit" onclick="" id="crud">
+                    <img src="./Imagenes/file-edit.png" title="Edit">
+                </button>
+                <button class="crud" type="submit" onclick="" id="crud">
+                    <img src="./Imagenes/file-delete.png" title="Delete">
+                </button>
+            </div>           
+        </div>
+    </form>
+</div>
+<!--Contenedor formulario admin operarios--> 
+<div class="cont_admintservicios" id="admintservicios">
+    <header class="h_form">
+        <div class="cont_izq">
+            <label>Admin Vehicles</label>
+        </div>
+        <div class="cont_der">
+            <button onclick="cerrar_admintservicios()">X</button>
+        </div>
+    </header>
+    <form class="formServicios" id="myform" >
+        <div class="cont_a">
+            <div class="cont_lbl"><label>Service Name</label></div>
+            <div class="cont_lbl"><label></label></div>
+            <div class="cont_lbl"><label></label></div>
+            <div class="cont_lbl"><label></label></div>
+            <div class="cont_lbl"><label for=""></label></div>
+           
+            <div class="cont_check"><input type="checkbox" name="" id=""><p>¿Save?</p></div>
+        </div>
+        <div class="cont_b">
+                <div class="cont_input2" ><input type="text" id="vp" required></div>
+                <div class="cont_lbl"><label for=""></label></div> 
+                <div class="cont_lbl"><label for=""></label></div>  
+                <div class="cont_lbl"><label for=""></label></div> 
+                <div class="cont_lbl"><label for=""></label></div>             
+            <div class="cont_btn_crud"> 
+                <button class="crud" type="submit" onclick="" id="crud">
+                    <img src="./Imagenes/file-add.png" title="Add">
+                </button>
+                <button class="crud" type="submit" onclick="" id="crud">
+                    <img src="./Imagenes/file-edit.png" title="Edit">
+                </button>
+                <button class="crud" type="submit" onclick="" id="crud">
+                    <img src="./Imagenes/file-delete.png" title="Delete">
+                </button>
+            </div>           
+        </div>
+    </form>
+</div>
+<!--Contenedor formulario informes--> 
+<div class="cont_informes" id="informes">
+    <header class="h_form">
+        <div class="cont_izq">
+            <label>Reports</label>
+        </div>
+        <div class="cont_der">
+            <button onclick="cerrar_informes()">X</button>
+        </div>
+    </header>  
+    <fieldset class="b_reporte">
+        <input type="checkbox"  id="check_info">
+        <label for="">Search by Date</label>
+    </fieldset> 
+    <div class="cont_inputR">
+        <label for="">Date one</label>
+        <input type="date">
+        <label for="">Date two</label>
+        <input type="date">
+        <button class="btn_r" type="submit">Generate PDF</button>
+    </div> 
+    <fieldset class="b_reporte">
+        <input type="checkbox"  id="check_info">
+        <label for="">Search by Vehicle</label>
+    </fieldset>  
+    <div class="cont_inputR">
+        <label for="">Plate</label>
+        <input type="text">
+        <label for="">Date</label>
+        <input type="date">
+        <button class="btn_r" type="submit">Generate PDF</button>
+    </div>   
+    <fieldset class="b_reporte">
+        <input type="checkbox"  id="check_info">
+        <label for="">Search by Operator</label>
+    </fieldset>  
+    <div class="cont_inputR">
+        <label for="">Document</label>
+        <input type="text">
+        <label for="">Date</label>
+        <input type="date">
+        <button class="btn_r" type="submit">Generate PDF</button>
+    </div>   
+</div>
+
+            </aside>
+        </section>
+    </section>
+    <script src="logic.js"></script>
+</body>
+<footer>
+    <a href="./secondpage.html">Software Solutions®</a>
+</footer>
+
+</html>
